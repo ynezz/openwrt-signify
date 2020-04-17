@@ -901,7 +901,9 @@ main(int argc, char **argv)
 				err(1, "pledge");
 		}
 		if (gzip) {
+#ifndef VERIFYONLY
 			zverify(pubkeyfile, msgfile, sigfile, keytype);
+#endif
 		} else {
 			if (!msgfile)
 				usage("must specify message");

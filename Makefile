@@ -172,11 +172,11 @@ endif
 ifeq ($(strip $(VERIFY_ONLY)),)
 S += ohash.c
 else
-     CPPFLAGS += -DVERIFY_ONLY=1
+     CPPFLAGS += -DVERIFYONLY=1
      $(warning )
      $(warning ******************************************************)
      $(warning )
-     $(warning Building with VERIFY_ONLY enabled is unsupported, YMMV)
+     $(warning Building with VERIFYONLY enabled is unsupported, YMMV)
      $(warning )
      $(warning ******************************************************)
      $(warning )
