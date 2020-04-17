@@ -15,6 +15,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#ifndef VERIFYONLY
 #include <sys/types.h>
 
 #include <stdint.h>
@@ -174,3 +175,4 @@ bad:
 	arc4random_buf(key, keylen);
 	return -1;
 }
+#endif
