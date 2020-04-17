@@ -754,13 +754,15 @@ verifyzdata(uint8_t *zdata, unsigned long long zdatalen,
 int
 main(int argc, char **argv)
 {
-	const char *pubkeyfile = NULL, *seckeyfile = NULL, *msgfile = NULL,
-	    *sigfile = NULL;
+	const char *pubkeyfile = NULL, *msgfile = NULL, *sigfile = NULL;
 	char sigfilebuf[PATH_MAX];
-	const char *comment = "signify";
 	char *keytype = NULL;
 	int ch;
+#ifndef VERIFYONLY
 	int none = 0;
+	const char *comment = "signify";
+	const char *seckeyfile = NULL;
+#endif
 	int embedded = 0;
 	int quiet = 0;
 	int gzip = 0;
@@ -796,14 +798,20 @@ main(int argc, char **argv)
 		case 'z':
 			gzip = 1;
 			break;
+		case 'n':
+			none = 1;
+			break;
+		case 's':
+			seckeyfile = optarg;
+			break;
+		case 'c':
+			comment = optarg;
+			break;
 #endif
 		case 'V':
 			if (verb)
 				usage(NULL);
 			verb = VERIFY;
-			break;
-		case 'c':
-			comment = optarg;
 			break;
 		case 'e':
 			embedded = 1;
@@ -811,17 +819,11 @@ main(int argc, char **argv)
 		case 'm':
 			msgfile = optarg;
 			break;
-		case 'n':
-			none = 1;
-			break;
 		case 'p':
 			pubkeyfile = optarg;
 			break;
 		case 'q':
 			quiet = 1;
-			break;
-		case 's':
-			seckeyfile = optarg;
 			break;
 		case 't':
 			keytype = optarg;
