@@ -36,7 +36,12 @@
 
 #include <sys/types.h>
 
+#ifndef VERIFYONLY
 #include <bsd/string.h>
+#else
+#include <string.h>
+#endif
+
 #include "sha2.h"
 
 /*

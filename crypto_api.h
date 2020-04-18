@@ -10,7 +10,10 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+
+#ifndef VERIFYONLY
 #include <bsd/stdlib.h>
+#endif
 
 typedef int32_t crypto_int32;
 typedef uint32_t crypto_uint32;

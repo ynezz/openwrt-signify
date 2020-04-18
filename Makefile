@@ -29,7 +29,14 @@ S := crypto_api.c \
 	 sha512hl.c \
 	 sha512_256hl.c \
 	 signify.c \
-	 zsig.c
+	 zsig.c \
+
+ifeq ($(strip $(VERIFY_ONLY)),1)
+CFLAGS += -DHAVE___PROGNAME
+S += \
+	progname.c \
+	strlcpy.c
+endif
 
 define SED_LAST_LINE
 sed -n -e '/^[a-zA-Z_-]\+$$/p' | sed -n '$$p'
@@ -140,6 +147,7 @@ $S: $(libbsd_INCLUDE)/bsd/bsd.h
 
 else
 
+ifneq ($(strip $(VERIFY_ONLY)),1)
 LIBBSD_PKG_VERSION := 0.7
 LIBBSD_PKG_CHECK   := $(shell pkg-config libbsd --atleast-version=$(LIBBSD_PKG_VERSION) && echo ok)
 ifneq ($(strip $(LIBBSD_PKG_CHECK)),ok)
@@ -148,6 +156,7 @@ endif
 LIBBSD_DEPS    :=
 LIBBSD_CFLAGS  := $(shell pkg-config libbsd --cflags)
 LIBBSD_LDFLAGS := $(shell pkg-config libbsd --libs)
+endif
 
 endif
 

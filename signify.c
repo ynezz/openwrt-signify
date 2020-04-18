@@ -22,7 +22,13 @@
 #include <limits.h>
 #include <stdint.h>
 #include <fcntl.h>
+
+#ifndef VERIFYONLY
 #include <bsd/string.h>
+#else
+#include <string.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -30,9 +36,16 @@
 #include <err.h>
 #include <unistd.h>
 #include <errno.h>
+
+#ifndef VERIFYONLY
 #include <bsd/readpassphrase.h>
 #include <bsd/libutil.h>
 #include <bsd/stdlib.h>
+#else
+const char* getprogname(void);
+size_t strlcpy(char *dst, const char *src, size_t dsize);
+#endif
+
 #include "sha2.h"
 
 #include "crypto_api.h"
