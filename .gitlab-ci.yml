@@ -1,0 +1,30 @@
+build:
+  image: registry.gitlab.com/ynezz/openwrt-ci/native-testing:latest
+  script:
+    - gpg --receive-keys 4F3E74F436050C10F5696574B972BF3EA4AE57A3
+
+    - git clean -xfd
+    - make check BUNDLED_LIBBSD=1 CC=gcc-10 EXTRA_CFLAGS=-O2 -j$(nproc)
+    - strip signify
+    - echo -e "gcc-10\n------------------" >> sizes.log
+    - (size signify; echo) >> sizes.log
+
+    - git clean -xfd -e sizes.log
+    - make VERIFY_ONLY=1 CC=gcc-10 EXTRA_CFLAGS=-O2 -j$(nproc)
+    - strip signify
+    - echo -e "gcc-10 verify-only\n------------------" >> sizes.log
+    - (size signify; echo) >> sizes.log
+
+    - git clean -xfd -e sizes.log
+    - make check BUNDLED_LIBBSD=1 CC=clang-9 EXTRA_CFLAGS=-O2 -j$(nproc)
+    - strip signify
+    - echo -e "clang-9\n------------------" >> sizes.log
+    - (size signify; echo) >> sizes.log
+
+    - git clean -xfd -e sizes.log
+    - make VERIFY_ONLY=1 CC=clang-9 EXTRA_CFLAGS=-O2 -j$(nproc)
+    - strip signify
+    - echo -e "clang-9 verify-only\n------------------" >> sizes.log
+    - (size signify; echo) >> sizes.log
+
+    - cat sizes.log
